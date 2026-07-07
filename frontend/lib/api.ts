@@ -3,9 +3,15 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "./supabase";
 
-// || (et non ??) : une variable définie mais vide doit aussi déclencher le repli
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+// || (et non ??) : une variable définie mais vide doit aussi déclencher le repli.
+// En production, le repli est l'URL publique du backend Render (pas un secret) —
+// NEXT_PUBLIC_API_URL reste prioritaire si définie.
+const DEFAULT_API_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://trading-assistant-api-z5xn.onrender.com"
+    : "http://localhost:8000";
+
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || DEFAULT_API_URL;
 
 export async function fetchJson<T>(path: string): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, { cache: "no-store" });
