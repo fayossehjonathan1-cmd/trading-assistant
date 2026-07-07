@@ -1,0 +1,20 @@
+name: keep-alive
+
+# Maintient le backend Render (plan gratuit) éveillé: sans trafic pendant 15 min,
+# l'instance s'endort et le scheduler d'analyse s'arrête.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping /health du backend
+        run: |
+          # --max-time 90: le réveil à froid d'une instance endormie peut prendre ~1 min
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 90 \
+            https://trading-assistant-api-z5xn.onrender.com/health)
+          echo "HTTP $code"
+          test "$code" = "200"
