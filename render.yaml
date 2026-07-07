@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: trading-assistant-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: TWELVEDATA_API_KEY
+        sync: false
+      - key: MARKETAUX_API_TOKEN
+        sync: false
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: CLAUDE_MODEL
+        value: claude-opus-4-8
+      - key: ANALYSIS_INTERVAL_MINUTES
+        value: "10"
+      - key: SIGNAL_COOLDOWN_MINUTES
+        value: "60"
+      - key: CANDLE_INTERVAL
+        value: 1h
+      - key: TRADE_REGIMES
+        value: tendance
+      - key: DONCHIAN_PERIOD
+        value: "10"
+      - key: CORS_ORIGINS
+        value: "*"

@@ -1,0 +1,26 @@
+# Secrets — ne jamais commiter
+.env
+.env.local
+*.env
+
+# Python
+backend/.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Données locales de backtest (volumineuses, régénérables)
+backend/backtest_cache/
+backend/backtest_report.json
+backend/sweep_report.json
+backend/sweep2_report.json
+backend/sweep3_report.json
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/.vercel/
+
+# Divers
+.DS_Store
+Thumbs.db
